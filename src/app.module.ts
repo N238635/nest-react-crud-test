@@ -3,15 +3,15 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { GraphQLModule } from '@nestjs/graphql';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { CatsModule } from './cats/cats.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
-    CatsModule,
+    UsersModule,
     GraphQLModule.forRoot({
       autoSchemaFile: 'src/schema.gql',
     }),
-    MongooseModule.forRoot('mongodb://localhost/nest'),
+    MongooseModule.forRoot('mongodb://localhost/nest', { useFindAndModify: false }),
   ],
   controllers: [AppController],
   providers: [AppService],
