@@ -9,7 +9,7 @@ import { UsersModule } from './users/users.module';
   imports: [
     UsersModule,
     GraphQLModule.forRoot({
-      autoSchemaFile: 'src/schema.gql',
+      typePaths: ['./**/*.gql'],
     }),
     MongooseModule.forRoot('mongodb://localhost/nest', { useFindAndModify: false }),
   ],
