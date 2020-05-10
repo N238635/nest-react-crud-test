@@ -1,9 +1,9 @@
 import { InputType, Field } from "@nestjs/graphql";
-import { Email } from "../email.scalar";
+import { EmailScalar } from "../email.scalar-type";
 
 @InputType()
 export class CreateUserInput {
-    @Field(() => Email)
+    @Field(() => EmailScalar)
     readonly email: string;
     @Field()
     readonly name: string;
@@ -11,7 +11,7 @@ export class CreateUserInput {
 
 @InputType()
 export class UpdateUserInput {
-    @Field(() => Email, { nullable: true })
+    @Field(() => EmailScalar, { nullable: true })
     email?: string;
     @Field({ nullable: true })
     name?: string;
