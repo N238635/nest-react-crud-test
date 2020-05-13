@@ -3,11 +3,11 @@ import React from 'react';
 import './App.css';
 import { gql } from 'apollo-boost';
 import { Query } from 'react-apollo';
-import { User } from './user';
+import { User } from './components/User';
 
 const GET_USERS = gql`
   query {
-    user(id: "5eb2ed281f62952c0810f1e0") {
+    users {
       name
       email
     }
@@ -23,7 +23,13 @@ function App() {
         if (loading) return <div>Loading...</div>;
         if (error) return <div>Error :(</div>;
 
-        return <User name={data.user.name} email={data.user.email} />;
+        return (
+          <ul>
+            {data.users.map((user: any) => (
+              <li><User name={user.name} email={user.email} /></li>
+            ))}
+          </ul>
+        );
       }}
     </Query>
   );
