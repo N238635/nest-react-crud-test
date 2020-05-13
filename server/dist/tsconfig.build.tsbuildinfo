@@ -3356,12 +3356,12 @@
         "version": "6a0b8d909d6c47437c29cc08707235515a2fc90380d623d2b2527d0dc8129fa0",
         "signature": "1a13c2f5ba0fdc67b62d8c35403435b6883b1af05f159a1287db48cc48069568"
       },
-      "../src/users/email.scalar.ts": {
+      "../src/users/email.scalar-type.ts": {
         "version": "55d5cf6b77361bbdbe8c8df70aac2da2bd2feb2cd5c64c2a46fc3ed028cab39e",
         "signature": "fc3e95c1a70e1ebe1e9b574a5e984efe075f7a59e7f9075120d6b5001680fbab"
       },
       "../src/users/inputs/user.input.ts": {
-        "version": "e8ef7971ff79bf5c39ad70c7111fa977964a24e9e2e7971c091ac665cfa9baca",
+        "version": "b088436c76461d056ee20184e2b5dbad4261f5678e7fa02211a2dd390d474508",
         "signature": "906b40f3b697f6a18c3d7cee2f12cfdf38aa1f42e1453d4d19b753b4bcbf6185"
       },
       "../src/users/users.service.ts": {
@@ -3369,7 +3369,7 @@
         "signature": "f70eb3bbd5040f13a50a96ca2f74966dbf8484fe49c7d983de78b8ac742bf8c6"
       },
       "../src/users/dto/create-user.dto.ts": {
-        "version": "70f637678fc63a6570f34d48c517f6f045623abdb1c9a5e3a715462e6029f944",
+        "version": "c84325ef977f8e40db78cbc8861495deaba5a1b29a341157fb1c4782bd527402",
         "signature": "5c4c65f6152bd3f9dc89e4e7bb1b2bc6fcf8bd64080d75b63918b847f72e287f"
       },
       "../src/users/users.resolver.ts": {
@@ -3381,15 +3381,15 @@
         "signature": "33b6d9f5900752b91a05e8ec298b94fec72ab453cbb20021183b577561396086"
       },
       "../src/users/users.module.ts": {
-        "version": "398e2fe22852f999f6bf1e4fdfb4734aac4de47a5df753caeb6eff7ca3eb5a62",
+        "version": "0aa1cc2ea356bd710485e812bf14ce3e22aa9e219b95d30d47e9d145306f3fdc",
         "signature": "12dec6c99bd8d11167fa91a31e737abbbf8c9cc789c151a25a9a1d13f328175c"
       },
       "../src/app.module.ts": {
-        "version": "45c0db1fbf87117d8d6c0cc37dcf94cceaf18b5f34dcb29bf27f8ee20ba4f06d",
+        "version": "56f013cad4aa847756b280e26084169a7353257998b6f3b5fca4937245707b08",
         "signature": "9fc7f7b6ad854404973b8cba8e6d883f758237991968e9a3965d716d46f1da88"
       },
       "../src/main.ts": {
-        "version": "e25d9bd8f80b6ffbcc8826ed1b407e747e4fbe346c5bab62cbe5837da4eeb189",
+        "version": "8c56ad2f87f2c81f638ab6758248f02b99a5fba01d1d19a56e34334bab069eb6",
         "signature": "f761c91419d0a89422a0004ef1a92929dd4d2d5e5c16758654d8b0467d1998c6"
       },
       "../node_modules/@types/anymatch/index.d.ts": {
@@ -3716,19 +3716,23 @@
         "version": "2893564a05d3bbe2a4d812dfd5ad3d7a6981a754283b695272d6ead03f638b67",
         "signature": "2893564a05d3bbe2a4d812dfd5ad3d7a6981a754283b695272d6ead03f638b67"
       },
-      "../../../../node_modules/@types/keyv/index.d.ts": {
+      "../node_modules/@types/zen-observable/index.d.ts": {
+        "version": "11b37a33fc34df80dabf1ebcca0cd0b6d0a2bea9654bfab7c987778490246c7f",
+        "signature": "11b37a33fc34df80dabf1ebcca0cd0b6d0a2bea9654bfab7c987778490246c7f"
+      },
+      "../../../../../node_modules/@types/keyv/index.d.ts": {
         "version": "9e7f7ac4d964992cf1b77612ca07e5695821881aa1a9acb0ef0509f192a5ea23",
         "signature": "9e7f7ac4d964992cf1b77612ca07e5695821881aa1a9acb0ef0509f192a5ea23"
       },
-      "../../../../node_modules/@types/http-cache-semantics/index.d.ts": {
+      "../../../../../node_modules/@types/http-cache-semantics/index.d.ts": {
         "version": "0bf440ab914e79e890cb15e5ffacb5e18bec678338b3eab069a5829d3d5c96e3",
         "signature": "0bf440ab914e79e890cb15e5ffacb5e18bec678338b3eab069a5829d3d5c96e3"
       },
-      "../../../../node_modules/@types/responselike/index.d.ts": {
+      "../../../../../node_modules/@types/responselike/index.d.ts": {
         "version": "3cfb0cb51cc2c2e1b313d7c4df04dbf7e5bda0a133c6b309bf6af77cf614b971",
         "signature": "3cfb0cb51cc2c2e1b313d7c4df04dbf7e5bda0a133c6b309bf6af77cf614b971"
       },
-      "../../../../node_modules/@types/cacheable-request/index.d.ts": {
+      "../../../../../node_modules/@types/cacheable-request/index.d.ts": {
         "version": "73c05cca1bb5aa8e93efd089af51643b7ff005e47064a0e624a74ee20480a2eb",
         "signature": "73c05cca1bb5aa8e93efd089af51643b7ff005e47064a0e624a74ee20480a2eb"
       }
@@ -11777,7 +11781,7 @@
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../src/users/email.scalar.ts": [
+      "../src/users/email.scalar-type.ts": [
         "../node_modules/@nestjs/graphql/index.d.ts",
         "../node_modules/graphql/language/index.d.ts",
         "../node_modules/graphql/index.d.ts",
@@ -11789,7 +11793,7 @@
       ],
       "../src/users/inputs/user.input.ts": [
         "../node_modules/@nestjs/graphql/index.d.ts",
-        "../src/users/email.scalar.ts",
+        "../src/users/email.scalar-type.ts",
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
         "../node_modules/@types/graceful-fs/index.d.ts",
@@ -11810,7 +11814,7 @@
       ],
       "../src/users/dto/create-user.dto.ts": [
         "../node_modules/@nestjs/graphql/index.d.ts",
-        "../src/users/email.scalar.ts",
+        "../src/users/email.scalar-type.ts",
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
         "../node_modules/@types/graceful-fs/index.d.ts",
@@ -11842,7 +11846,7 @@
         "../src/users/users.resolver.ts",
         "../src/users/users.schema.ts",
         "../src/users/users.service.ts",
-        "../src/users/email.scalar.ts",
+        "../src/users/email.scalar-type.ts",
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
         "../node_modules/@types/graceful-fs/index.d.ts",
@@ -12598,7 +12602,14 @@
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../../node_modules/@types/keyv/index.d.ts": [
+      "../node_modules/@types/zen-observable/index.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/graceful-fs/index.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../../../node_modules/@types/keyv/index.d.ts": [
         "../node_modules/@types/node/events.d.ts",
         "../node_modules/@types/node/ts3.7/index.d.ts",
         "../node_modules/@types/node/fs.d.ts",
@@ -12607,14 +12618,14 @@
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../../node_modules/@types/http-cache-semantics/index.d.ts": [
+      "../../../../../node_modules/@types/http-cache-semantics/index.d.ts": [
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
         "../node_modules/@types/graceful-fs/index.d.ts",
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../../node_modules/@types/responselike/index.d.ts": [
+      "../../../../../node_modules/@types/responselike/index.d.ts": [
         "../node_modules/@types/node/http.d.ts",
         "../node_modules/@types/node/stream.d.ts",
         "../node_modules/@types/node/ts3.7/index.d.ts",
@@ -12624,13 +12635,13 @@
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../../node_modules/@types/cacheable-request/index.d.ts": [
+      "../../../../../node_modules/@types/cacheable-request/index.d.ts": [
         "../node_modules/@types/node/http.d.ts",
         "../node_modules/@types/node/url.d.ts",
         "../node_modules/@types/node/events.d.ts",
-        "../../../../node_modules/@types/keyv/index.d.ts",
-        "../../../../node_modules/@types/http-cache-semantics/index.d.ts",
-        "../../../../node_modules/@types/responselike/index.d.ts",
+        "../../../../../node_modules/@types/keyv/index.d.ts",
+        "../../../../../node_modules/@types/http-cache-semantics/index.d.ts",
+        "../../../../../node_modules/@types/responselike/index.d.ts",
         "../node_modules/@types/node/ts3.7/index.d.ts",
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
@@ -20642,7 +20653,7 @@
       "../src/users/interfaces/user.interface.ts": [
         "../node_modules/@types/mongoose/index.d.ts"
       ],
-      "../src/users/email.scalar.ts": [
+      "../src/users/email.scalar-type.ts": [
         "../node_modules/graphql/language/index.d.ts",
         "../node_modules/@nestjs/graphql/index.d.ts"
       ],
@@ -21386,7 +21397,14 @@
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../../node_modules/@types/keyv/index.d.ts": [
+      "../node_modules/@types/zen-observable/index.d.ts": [
+        "../node_modules/@types/node/fs.d.ts",
+        "../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../node_modules/@types/graceful-fs/index.d.ts",
+        "../node_modules/@types/node/util.d.ts",
+        "../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../../../node_modules/@types/keyv/index.d.ts": [
         "../node_modules/@types/node/events.d.ts",
         "../node_modules/@types/node/ts3.7/index.d.ts",
         "../node_modules/@types/node/fs.d.ts",
@@ -21395,14 +21413,14 @@
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../../node_modules/@types/http-cache-semantics/index.d.ts": [
+      "../../../../../node_modules/@types/http-cache-semantics/index.d.ts": [
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",
         "../node_modules/@types/graceful-fs/index.d.ts",
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../../node_modules/@types/responselike/index.d.ts": [
+      "../../../../../node_modules/@types/responselike/index.d.ts": [
         "../node_modules/@types/node/http.d.ts",
         "../node_modules/@types/node/stream.d.ts",
         "../node_modules/@types/node/ts3.7/index.d.ts",
@@ -21412,13 +21430,13 @@
         "../node_modules/@types/node/util.d.ts",
         "../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../../node_modules/@types/cacheable-request/index.d.ts": [
+      "../../../../../node_modules/@types/cacheable-request/index.d.ts": [
         "../node_modules/@types/node/http.d.ts",
         "../node_modules/@types/node/url.d.ts",
         "../node_modules/@types/node/events.d.ts",
-        "../../../../node_modules/@types/keyv/index.d.ts",
-        "../../../../node_modules/@types/http-cache-semantics/index.d.ts",
-        "../../../../node_modules/@types/responselike/index.d.ts",
+        "../../../../../node_modules/@types/keyv/index.d.ts",
+        "../../../../../node_modules/@types/http-cache-semantics/index.d.ts",
+        "../../../../../node_modules/@types/responselike/index.d.ts",
         "../node_modules/@types/node/ts3.7/index.d.ts",
         "../node_modules/@types/node/fs.d.ts",
         "../node_modules/@types/node/ts3.2/fs.d.ts",

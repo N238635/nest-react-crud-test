@@ -11,13 +11,13 @@ const mongoose_1 = require("@nestjs/mongoose");
 const users_resolver_1 = require("./users.resolver");
 const users_schema_1 = require("./users.schema");
 const users_service_1 = require("./users.service");
-const email_scalar_1 = require("./email.scalar");
+const email_scalar_type_1 = require("./email.scalar-type");
 let UsersModule = class UsersModule {
 };
 UsersModule = __decorate([
     common_1.Module({
         imports: [mongoose_1.MongooseModule.forFeature([{ name: 'User', schema: users_schema_1.UserSchema }])],
-        providers: [users_resolver_1.UsersResolver, users_service_1.UsersService, email_scalar_1.EmailScalar],
+        providers: [users_resolver_1.UsersResolver, users_service_1.UsersService, email_scalar_type_1.EmailScalar],
     })
 ], UsersModule);
 exports.UsersModule = UsersModule;

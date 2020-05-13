@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const graphql_1 = require("@nestjs/graphql");
+const email_scalar_type_1 = require("../email.scalar-type");
 let User = class User {
 };
 __decorate([
@@ -17,7 +18,7 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "id", void 0);
 __decorate([
-    graphql_1.Field(),
+    graphql_1.Field(() => email_scalar_type_1.EmailScalar),
     __metadata("design:type", String)
 ], User.prototype, "email", void 0);
 __decorate([
