@@ -10,7 +10,11 @@
     "@types/node": "^12.12.38",
     "@types/react": "^16.9.35",
     "@types/react-dom": "^16.9.8",
+    "apollo-boost": "^0.4.8",
+    "graphql": "^15.0.0",
+    "graphql-tag": "^2.10.3",
     "react": "^16.13.1",
+    "react-apollo": "^3.1.5",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
     "typescript": "^3.7.5"
