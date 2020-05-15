@@ -3,11 +3,13 @@ import React from 'react';
 import './App.css';
 import { gql } from 'apollo-boost';
 import { Query } from 'react-apollo';
-import UserList from './components/UserList';
+//import UserList from './components/UserList';
+import UserTable from './components/UserTable';
 
 const GET_USERS = gql`
   query {
     users(limit: 0) {
+      id
       name
       email
     }
@@ -23,7 +25,7 @@ function App() {
         if (loading) return <div>Loading...</div>;
         if (error) return <div>Error :(</div>;
 
-        return <UserList users={data.users} />;
+        return <UserTable users={data.users} />;
       }}
     </Query>
   );
