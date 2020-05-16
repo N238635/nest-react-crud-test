@@ -15,16 +15,10 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import Toolbar from '@material-ui/core/Toolbar';
-import { Typography } from '@material-ui/core';
-
-const useStyles1 = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            flexShrink: 0,
-            marginLeft: theme.spacing(2.5),
-        },
-    }),
-);
+import { Typography, Tooltip } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
+import CloseIcon from '@material-ui/icons/Close';
+import EditIcon from '@material-ui/icons/Edit';
 
 interface Column {
     id: 'id' | 'name' | 'email';
@@ -47,8 +41,17 @@ interface TablePaginationActionsProps {
     onChangePage: (event: React.MouseEvent<HTMLButtonElement>, newPage: number) => void;
 }
 
+const paginationStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        root: {
+            flexShrink: 0,
+            marginLeft: theme.spacing(2.5),
+        },
+    }),
+);
+
 function TablePaginationActions(props: TablePaginationActionsProps) {
-    const classes = useStyles1();
+    const classes = paginationStyles();
     const theme = useTheme();
     const { count, page, rowsPerPage, onChangePage } = props;
 
@@ -113,11 +116,42 @@ const useToolbarStyles = makeStyles((theme: Theme) =>
 
 function TableToolbar(props: any) {
     const classes = useToolbarStyles();
+    const selected = props.selected;
+    const { unselectRow, editRow, deleteUser } = props;
+
+    let buttons: JSX.Element[] = [];
+
+    const deleteRow = (event: React.MouseEvent<unknown | HTMLButtonElement> | null = null) => {
+        deleteUser({ variables: { selected } });
+        unselectRow();
+    }
+
+    if (selected) {
+        buttons = [
+            <Tooltip title="Edit" key="Edit">
+                <IconButton onClick={editRow} aria-label="edit">
+                    <EditIcon />
+                </IconButton>
+            </Tooltip>,
+            <Tooltip title="Delete" key="Delete">
+                <IconButton onClick={deleteRow} aria-label="delete">
+                    <DeleteIcon />
+                </IconButton>
+            </Tooltip>,
+            <Tooltip title="Close" key="Close">
+                <IconButton onClick={unselectRow} aria-label="close">
+                    <CloseIcon />
+                </IconButton>
+            </Tooltip>,
+        ]
+    }
+
     return (
         <Toolbar className={classes.root}>
             <Typography className={classes.title} color="inherit" variant="subtitle1" component="div">
-                What's up?
+                What's up? {selected}
             </Typography>
+            {buttons}
         </Toolbar>
     )
 }
@@ -139,13 +173,23 @@ const userTableStyles = makeStyles((theme: Theme) =>
 );
 
 export default function UserTable(props: any) {
+    const { deleteUser } = props;
     const rows: { id: string, name: string, email: string }[] = props.users.sort((a: any, b: any) => (a.name < b.name ? -1 : 1));
     const classes = userTableStyles();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
-    const [selected, setSelected] = React.useState<string>();
+    const [selected, setSelected] = React.useState<string>("");
+
+    const unselectRow = (event: React.MouseEvent<unknown | HTMLButtonElement> | null = null) => {
+        setSelected("");
+    }
+
+    const editRow = (event: React.MouseEvent<unknown | HTMLButtonElement> | null = null) => {
+
+    }
 
     const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+        unselectRow();
         setPage(newPage);
     };
 
@@ -157,7 +201,11 @@ export default function UserTable(props: any) {
     };
 
     const handleClick = (event: React.MouseEvent<unknown>, id: string) => {
-        setSelected(id);
+        if (selected === id) {
+            unselectRow();
+        } else {
+            setSelected(id);
+        }
     };
 
     const isSelected = (id: string) => selected === id;
@@ -167,7 +215,7 @@ export default function UserTable(props: any) {
     return (
         <div className={classes.alignItemsAndJustifyContent}>
             <TableContainer className={classes.table} component={Paper}>
-                <TableToolbar />
+                <TableToolbar selected={selected} unselectRow={unselectRow} deleteUser={deleteUser} />
                 <Table aria-label="custom pagination table">
                     <TableHead>
                         <TableRow>
