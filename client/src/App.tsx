@@ -1,34 +1,38 @@
 import React from 'react';
-//import logo from './logo.svg';
 import './App.css';
+
+import { useMutation, useQuery } from 'react-apollo';
 import { gql } from 'apollo-boost';
-import { Query } from 'react-apollo';
-//import UserList from './components/UserList';
 import UserTable from './components/UserTable';
 
 const GET_USERS = gql`
-  query {
-    users(limit: 0) {
-      id
-      name
-      email
+    query {
+        users(limit: 0) {
+            id
+            name
+            email
+        }
     }
-  }
 `
 
+const DELETE_USER = gql`
+    mutation DeleteMutation($selected: ID!) {
+      deleteUser(id: $selected) {
+        id
+        name
+        email
+      }
+    }
+  `
+
 function App() {
-  return (
-    <Query query={GET_USERS}>
-      {(result: any) => {
-        const { loading, error, data } = result;
+  const { loading, error, data } = useQuery(GET_USERS);
+  const [deleteUser] = useMutation(DELETE_USER);
 
-        if (loading) return <div>Loading...</div>;
-        if (error) return <div>Error :(</div>;
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :(</p>;
 
-        return <UserTable users={data.users} />;
-      }}
-    </Query>
-  );
+  return <UserTable users={data.users} deleteUser={deleteUser} />;
 }
 
 export default App;
