@@ -7,7 +7,13 @@ import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 
 // Pass your GraphQL endpoint to uri
-const client = new ApolloClient({ uri: 'http://localhost:5000/graphql' });
+const client = new ApolloClient({
+  uri: 'http://localhost:5000/graphql',
+  onError: ({ networkError, graphQLErrors }) => {
+    console.log('graphQLErrors', graphQLErrors)
+    console.log('networkError', networkError)
+  }
+});
 
 const ApolloApp = (AppComponent: React.FC) => (
   <ApolloProvider client={client}>
