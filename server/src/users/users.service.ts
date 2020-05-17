@@ -14,7 +14,7 @@ export class UsersService {
     }
 
     async update(id: string, updateUserDto: UpdateUserInput): Promise<User> {
-        return this.userModel.findByIdAndUpdate(id, updateUserDto);
+        return this.userModel.findByIdAndUpdate(id, updateUserDto, { new: true });
     }
 
     async delete(id: string): Promise<User> {
