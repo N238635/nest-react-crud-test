@@ -15,10 +15,11 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import Toolbar from '@material-ui/core/Toolbar';
-import { Typography, Tooltip } from '@material-ui/core';
+import { Typography, Tooltip, TextField } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CloseIcon from '@material-ui/icons/Close';
 import EditIcon from '@material-ui/icons/Edit';
+import AddIcon from '@material-ui/icons/Add';
 
 interface Column {
     id: 'id' | 'name' | 'email';
@@ -30,8 +31,8 @@ interface Column {
 
 const columns: Column[] = [
     { id: 'id', label: 'ID', minWidth: 100 },
-    { id: 'name', label: 'Name', minWidth: 170, align: "right" },
-    { id: 'email', label: 'Email', minWidth: 100, align: "right" },
+    { id: 'name', label: 'Name', minWidth: 50, align: "right" },
+    { id: 'email', label: 'Email', minWidth: 50, align: "right" },
 ];
 
 interface TablePaginationActionsProps {
@@ -105,53 +106,78 @@ const useToolbarStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             paddingLeft: theme.spacing(2),
-            paddingRight: theme.spacing(1),
+            paddingRight: theme.spacing(0.5),
             backgroundColor: "#FFCCE5",
+            fontSize: "small"
         },
         title: {
             flex: '1 1 100%',
+            fontSize: "small",
+        },
+        textfield: {
+            textAlign: "left",
         },
     })
 );
 
 function TableToolbar(props: any) {
+    let email = "boblul@mail.ru", name = "bob69";
     const classes = useToolbarStyles();
     const selected = props.selected;
-    const { unselectRow, editRow, deleteUser } = props;
+    const { unselectRow, deleteUser, updateUser, addUser } = props;
 
-    let buttons: JSX.Element[] = [];
+    const addRow = (event: any = null) => {
+        addUser({ variables: { input: { email: "zzzz@gmail.com", name: "bob00" } } });
+    }
 
-    const deleteRow = (event: React.MouseEvent<unknown | HTMLButtonElement> | null = null) => {
-        deleteUser({ variables: { selected } });
+    const updateRow = (event: any = null) => {
+        updateUser({ variables: { id: selected.id, input: { email, name } } });
+    }
+
+    const deleteRow = (event: any = null) => {
+        deleteUser({ variables: { id: selected.id } });
         unselectRow();
     }
 
-    if (selected) {
-        buttons = [
-            <Tooltip title="Edit" key="Edit">
-                <IconButton onClick={editRow} aria-label="edit">
-                    <EditIcon />
-                </IconButton>
-            </Tooltip>,
-            <Tooltip title="Delete" key="Delete">
-                <IconButton onClick={deleteRow} aria-label="delete">
-                    <DeleteIcon />
-                </IconButton>
-            </Tooltip>,
-            <Tooltip title="Close" key="Close">
-                <IconButton onClick={unselectRow} aria-label="close">
-                    <CloseIcon />
-                </IconButton>
-            </Tooltip>,
-        ]
+    const closeRow = (event: any = null) => {
+        unselectRow();
     }
 
     return (
         <Toolbar className={classes.root}>
-            <Typography className={classes.title} color="inherit" variant="subtitle1" component="div">
-                What's up? {selected}
-            </Typography>
-            {buttons}
+            {selected ? (
+                <React.Fragment>
+                    <Typography className={classes.title} color="inherit" variant="subtitle1" component="div">
+                        {selected.id}
+                    </Typography>
+                    <TextField id="name" label="Name" variant="outlined" className={classes.textfield} />
+                    <TextField id="email" label="Email" variant="outlined" className={classes.textfield} />
+                    <Tooltip title="Add" key="Add">
+                        <IconButton onClick={addRow} aria-label="add">
+                            <AddIcon />
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Edit" key="Edit">
+                        <IconButton onClick={updateRow} aria-label="edit">
+                            <EditIcon />
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Delete" key="Delete">
+                        <IconButton onClick={deleteRow} aria-label="delete">
+                            <DeleteIcon />
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Close" key="Close">
+                        <IconButton onClick={closeRow} aria-label="close">
+                            <CloseIcon />
+                        </IconButton>
+                    </Tooltip>
+                </React.Fragment>
+            ) : (
+                    <Typography className={classes.title} color="inherit" variant="subtitle1" component="div">
+                        What's up?
+                    </Typography>
+                )}
         </Toolbar>
     )
 }
@@ -172,50 +198,49 @@ const userTableStyles = makeStyles((theme: Theme) =>
     })
 );
 
+interface Row {
+    id: string,
+    name: string,
+    email: string,
+}
+
 export default function UserTable(props: any) {
-    const { deleteUser } = props;
-    const rows: { id: string, name: string, email: string }[] = props.users.sort((a: any, b: any) => (a.name < b.name ? -1 : 1));
+    const rows: Row[] = props.users;
     const classes = userTableStyles();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
-    const [selected, setSelected] = React.useState<string>("");
+    const [selected, setSelected] = React.useState<Row | null>(null);
 
-    const unselectRow = (event: React.MouseEvent<unknown | HTMLButtonElement> | null = null) => {
-        setSelected("");
+    const unselectRow = (event: any = null) => {
+        setSelected(null);
     }
 
-    const editRow = (event: React.MouseEvent<unknown | HTMLButtonElement> | null = null) => {
-
-    }
-
-    const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+    const handleChangePage = (event: any, newPage: number) => {
         unselectRow();
         setPage(newPage);
     };
 
-    const handleChangeRowsPerPage = (
-        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    ) => {
+    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
 
-    const handleClick = (event: React.MouseEvent<unknown>, id: string) => {
-        if (selected === id) {
+    const handleClick = (event: any, row: Row) => {
+        if (selected && selected.id === row.id) {
             unselectRow();
         } else {
-            setSelected(id);
+            setSelected(row);
         }
     };
 
-    const isSelected = (id: string) => selected === id;
+    const isSelected = (row: Row) => selected ? selected.id === row.id : false;
 
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
     return (
         <div className={classes.alignItemsAndJustifyContent}>
             <TableContainer className={classes.table} component={Paper}>
-                <TableToolbar selected={selected} unselectRow={unselectRow} deleteUser={deleteUser} />
+                <TableToolbar {...props} selected={selected} unselectRow={unselectRow} />
                 <Table aria-label="custom pagination table">
                     <TableHead>
                         <TableRow>
@@ -232,11 +257,11 @@ export default function UserTable(props: any) {
                     </TableHead>
                     <TableBody>
                         {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                            const isItemSelected = isSelected(row.id);
+                            const isItemSelected = isSelected(row);
                             return (
                                 <TableRow
                                     hover
-                                    onClick={(event) => handleClick(event, row.id)}
+                                    onClick={(event: any) => handleClick(event, row)}
                                     tabIndex={-1}
                                     selected={isItemSelected}
                                     key={row.id}
