@@ -19,7 +19,7 @@ import { Typography, Tooltip, TextField } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CloseIcon from '@material-ui/icons/Close';
 import EditIcon from '@material-ui/icons/Edit';
-import AddIcon from '@material-ui/icons/Add';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 interface Column {
     id: 'id' | 'name' | 'email';
@@ -105,29 +105,62 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
 const useToolbarStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
-            paddingLeft: theme.spacing(2),
-            paddingRight: theme.spacing(0.5),
+            minHeight: 0,
+            minWidth: 0,
             backgroundColor: "#FFCCE5",
-            fontSize: "small"
+            paddingLeft: 0,
+            paddingRight: 0,
+            width: "100%",
+
+            '& #toolbar-wrap': {
+                width: "100%",
+                height: "100%",
+            }
         },
-        title: {
-            flex: '1 1 100%',
-            fontSize: "small",
+        topBar: {
+            backgroundColor: "#FFBCD5",
+
+            '& #toolbar-title': {
+                fontSize: "small",
+                paddingLeft: theme.spacing(1),
+            }
         },
-        textfield: {
-            textAlign: "left",
+        toolBar: {
+            height: 60,
+            clear: "both",
+
+            '& div': {
+                display: "inline-block",
+            },
+
+            '& #toolbar-textfields': {
+                height: 60,
+
+                '& .MuiFormControl-root': {
+                    marginTop: 2,
+                    marginBottom: 2,
+                    marginLeft: theme.spacing(1),
+                },
+            },
+
+            '& #toolbar-buttons': {
+                padding: 6,
+                float: "right",
+                position: "relative",
+            },
         },
     })
 );
 
 function TableToolbar(props: any) {
-    let email = "boblul@mail.ru", name = "bob69";
     const classes = useToolbarStyles();
-    const selected = props.selected;
-    const { unselectRow, deleteUser, updateUser, addUser } = props;
+    const { selected, setSelected, deleteUser, updateUser, addUser, onAdd } = props;
+    const [name, setName] = React.useState<string>("");
+    const [email, setEmail] = React.useState<string>("");
 
-    const addRow = (event: any = null) => {
-        addUser({ variables: { input: { email: "zzzz@gmail.com", name: "bob00" } } });
+    const addRow = async (event: any = null) => {
+        addUser({ variables: { input: { email, name } } });
+        onAdd();
     }
 
     const updateRow = (event: any = null) => {
@@ -136,48 +169,67 @@ function TableToolbar(props: any) {
 
     const deleteRow = (event: any = null) => {
         deleteUser({ variables: { id: selected.id } });
-        unselectRow();
+        setSelected(null);
     }
 
     const closeRow = (event: any = null) => {
-        unselectRow();
+        setSelected(null);
+    }
+
+    const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setName(event.target.value);
+    };
+
+    const handleChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setEmail(event.target.value);
+    };
+
+    const somethingSelected = (selected !== null);
+
+    let text;
+    if (selected) {
+        text = selected.id;
+    } else {
+        text = "What's up?";
     }
 
     return (
         <Toolbar className={classes.root}>
-            {selected ? (
-                <React.Fragment>
-                    <Typography className={classes.title} color="inherit" variant="subtitle1" component="div">
-                        {selected.id}
+            <div id="toolbar-wrap" >
+                <div className={classes.topBar}>
+                    <Typography id="toolbar-title" color="inherit" variant="subtitle1" component="div" >
+                        {text}
                     </Typography>
-                    <TextField id="name" label="Name" variant="outlined" className={classes.textfield} />
-                    <TextField id="email" label="Email" variant="outlined" className={classes.textfield} />
-                    <Tooltip title="Add" key="Add">
-                        <IconButton onClick={addRow} aria-label="add">
-                            <AddIcon />
-                        </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Edit" key="Edit">
-                        <IconButton onClick={updateRow} aria-label="edit">
-                            <EditIcon />
-                        </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Delete" key="Delete">
-                        <IconButton onClick={deleteRow} aria-label="delete">
-                            <DeleteIcon />
-                        </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Close" key="Close">
-                        <IconButton onClick={closeRow} aria-label="close">
-                            <CloseIcon />
-                        </IconButton>
-                    </Tooltip>
-                </React.Fragment>
-            ) : (
-                    <Typography className={classes.title} color="inherit" variant="subtitle1" component="div">
-                        What's up?
-                    </Typography>
-                )}
+                </div>
+                <div className={classes.toolBar}>
+                    <div id="toolbar-textfields">
+                        <TextField value={name} onChange={handleChangeName} label="Name" variant="outlined" />
+                        <TextField value={email} onChange={handleChangeEmail} label="Email" variant="outlined" />
+                    </div>
+                    <div id="toolbar-buttons" >
+                        <Tooltip title="Add" key="Add">
+                            <IconButton onClick={addRow} aria-label="add">
+                                <AddCircleIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Edit" key="Edit">
+                            <IconButton disabled={!somethingSelected} onClick={updateRow} aria-label="edit">
+                                <EditIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Delete" key="Delete">
+                            <IconButton disabled={!somethingSelected} onClick={deleteRow} aria-label="delete">
+                                <DeleteIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Close" key="Close">
+                            <IconButton disabled={!somethingSelected} onClick={closeRow} aria-label="close">
+                                <CloseIcon />
+                            </IconButton>
+                        </Tooltip>
+                    </div>
+                </div>
+            </div>
         </Toolbar>
     )
 }
@@ -205,18 +257,14 @@ interface Row {
 }
 
 export default function UserTable(props: any) {
-    const rows: Row[] = props.users;
+    const rows: Row[] = props.users.sort((a: any, b: any) => { return a.id < b.id ? 1 : a.id > b.id ? -1 : 0 });
     const classes = userTableStyles();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [selected, setSelected] = React.useState<Row | null>(null);
 
-    const unselectRow = (event: any = null) => {
-        setSelected(null);
-    }
-
     const handleChangePage = (event: any, newPage: number) => {
-        unselectRow();
+        setSelected(null);
         setPage(newPage);
     };
 
@@ -227,7 +275,7 @@ export default function UserTable(props: any) {
 
     const handleClick = (event: any, row: Row) => {
         if (selected && selected.id === row.id) {
-            unselectRow();
+            setSelected(null);
         } else {
             setSelected(row);
         }
@@ -237,10 +285,18 @@ export default function UserTable(props: any) {
 
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
+    const currentPageRows = rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+
+
+    //TODO: selectes wrong row, lul
+    const onAdd = () => {
+        setSelected(currentPageRows[0]);
+    }
+
     return (
         <div className={classes.alignItemsAndJustifyContent}>
             <TableContainer className={classes.table} component={Paper}>
-                <TableToolbar {...props} selected={selected} unselectRow={unselectRow} />
+                <TableToolbar {...props} selected={selected} setSelected={setSelected} onAdd={onAdd} />
                 <Table aria-label="custom pagination table">
                     <TableHead>
                         <TableRow>
@@ -256,7 +312,7 @@ export default function UserTable(props: any) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                        {currentPageRows.map((row) => {
                             const isItemSelected = isSelected(row);
                             return (
                                 <TableRow
