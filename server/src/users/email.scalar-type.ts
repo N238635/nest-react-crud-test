@@ -7,10 +7,20 @@ export class EmailScalar implements CustomScalar<string, String> {
     description = 'Email custom scalar type';
 
     parseValue(value: string): string {
+        var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+        if (!re.test(value)) {
+            throw new GraphQLError('Query error: Not a valid Email');
+        }
+
         return value;
     }
 
     serialize(value: string): string {
+        var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+        if (!re.test(value)) {
+            throw new GraphQLError('Query error: Not a valid Email');
+        }
+
         return value;
     }
 
