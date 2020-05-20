@@ -266,24 +266,32 @@ export default function UserTable(props: any) {
                             </div>
                             <div id="toolbar-buttons" >
                                 <Tooltip title="Add" key="Add">
-                                    <IconButton onClick={addRow} aria-label="add">
-                                        <AddCircleIcon />
-                                    </IconButton>
+                                    <span>
+                                        <IconButton onClick={addRow} aria-label="add">
+                                            <AddCircleIcon />
+                                        </IconButton>
+                                    </span>
                                 </Tooltip>
                                 <Tooltip title="Edit" key="Edit">
-                                    <IconButton disabled={!selected} onClick={updateRow} aria-label="edit">
-                                        <EditIcon />
-                                    </IconButton>
+                                    <span>
+                                        <IconButton disabled={!selected} onClick={updateRow} aria-label="edit">
+                                            <EditIcon />
+                                        </IconButton>
+                                    </span>
                                 </Tooltip>
                                 <Tooltip title="Delete" key="Delete">
-                                    <IconButton disabled={!selected} onClick={deleteRow} aria-label="delete">
-                                        <DeleteIcon />
-                                    </IconButton>
+                                    <span>
+                                        <IconButton disabled={!selected} onClick={deleteRow} aria-label="delete">
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    </span>
                                 </Tooltip>
                                 <Tooltip title="Close" key="Close">
-                                    <IconButton disabled={!selected} onClick={closeRow} aria-label="close">
-                                        <CloseIcon />
-                                    </IconButton>
+                                    <span>
+                                        <IconButton disabled={!selected} onClick={closeRow} aria-label="close">
+                                            <CloseIcon />
+                                        </IconButton>
+                                    </span>
                                 </Tooltip>
                             </div>
                         </div>
