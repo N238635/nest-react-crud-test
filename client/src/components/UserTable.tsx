@@ -102,9 +102,20 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
     );
 }
 
-const useToolbarStyles = makeStyles((theme: Theme) =>
+const userTableStyles = makeStyles((theme: Theme) =>
     createStyles({
-        root: {
+        table: {
+            minWidth: 500,
+            maxWidth: 700,
+            marginTop: 50,
+            marginBottom: theme.spacing(2),
+        },
+        alignItemsAndJustifyContent: {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+        toolBarRoot: {
             minHeight: 0,
             minWidth: 0,
             backgroundColor: "#FFCCE5",
@@ -152,104 +163,6 @@ const useToolbarStyles = makeStyles((theme: Theme) =>
     })
 );
 
-function TableToolbar(props: any) {
-    const classes = useToolbarStyles();
-    const { selected, setSelected, deleteUser, updateUser, addUser, onAdd } = props;
-    const [name, setName] = React.useState<string>("");
-    const [email, setEmail] = React.useState<string>("");
-
-    const addRow = async (event: any = null) => {
-        addUser({ variables: { input: { email, name } } });
-        onAdd();
-    }
-
-    const updateRow = (event: any = null) => {
-        updateUser({ variables: { id: selected.id, input: { email, name } } });
-    }
-
-    const deleteRow = (event: any = null) => {
-        deleteUser({ variables: { id: selected.id } });
-        setSelected(null);
-    }
-
-    const closeRow = (event: any = null) => {
-        setSelected(null);
-    }
-
-    const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setName(event.target.value);
-    };
-
-    const handleChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setEmail(event.target.value);
-    };
-
-    const somethingSelected = (selected !== null);
-
-    let text;
-    if (selected) {
-        text = selected.id;
-    } else {
-        text = "What's up?";
-    }
-
-    return (
-        <Toolbar className={classes.root}>
-            <div id="toolbar-wrap" >
-                <div className={classes.topBar}>
-                    <Typography id="toolbar-title" color="inherit" variant="subtitle1" component="div" >
-                        {text}
-                    </Typography>
-                </div>
-                <div className={classes.toolBar}>
-                    <div id="toolbar-textfields">
-                        <TextField value={name} onChange={handleChangeName} label="Name" variant="outlined" />
-                        <TextField value={email} onChange={handleChangeEmail} label="Email" variant="outlined" />
-                    </div>
-                    <div id="toolbar-buttons" >
-                        <Tooltip title="Add" key="Add">
-                            <IconButton onClick={addRow} aria-label="add">
-                                <AddCircleIcon />
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title="Edit" key="Edit">
-                            <IconButton disabled={!somethingSelected} onClick={updateRow} aria-label="edit">
-                                <EditIcon />
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title="Delete" key="Delete">
-                            <IconButton disabled={!somethingSelected} onClick={deleteRow} aria-label="delete">
-                                <DeleteIcon />
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title="Close" key="Close">
-                            <IconButton disabled={!somethingSelected} onClick={closeRow} aria-label="close">
-                                <CloseIcon />
-                            </IconButton>
-                        </Tooltip>
-                    </div>
-                </div>
-            </div>
-        </Toolbar>
-    )
-}
-
-const userTableStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        table: {
-            minWidth: 500,
-            maxWidth: 700,
-            marginTop: 50,
-            marginBottom: theme.spacing(2),
-        },
-        alignItemsAndJustifyContent: {
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-        },
-    })
-);
-
 interface Row {
     id: string,
     name: string,
@@ -257,14 +170,23 @@ interface Row {
 }
 
 export default function UserTable(props: any) {
+    const { addUser, updateUser, deleteUser } = props;
     const rows: Row[] = props.users.sort((a: any, b: any) => { return a.id < b.id ? 1 : a.id > b.id ? -1 : 0 });
     const classes = userTableStyles();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [selected, setSelected] = React.useState<Row | null>(null);
+    const [name, setName] = React.useState<string>("");
+    const [email, setEmail] = React.useState<string>("");
+
+    const closeRow = (event: any = null) => {
+        setSelected(null);
+        setEmail("");
+        setName("");
+    }
 
     const handleChangePage = (event: any, newPage: number) => {
-        setSelected(null);
+        closeRow();
         setPage(newPage);
     };
 
@@ -275,10 +197,20 @@ export default function UserTable(props: any) {
 
     const handleClick = (event: any, row: Row) => {
         if (selected && selected.id === row.id) {
-            setSelected(null);
+            closeRow();
         } else {
             setSelected(row);
+            setEmail(row.email);
+            setName(row.name);
         }
+    };
+
+    const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setName(event.target.value);
+    };
+
+    const handleChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setEmail(event.target.value);
     };
 
     const isSelected = (row: Row) => selected ? selected.id === row.id : false;
@@ -287,16 +219,76 @@ export default function UserTable(props: any) {
 
     const currentPageRows = rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
-
     //TODO: selectes wrong row, lul
     const onAdd = () => {
-        setSelected(currentPageRows[0]);
+        //setSelected(currentPageRows[0]);
+    }
+
+    const addRow = async (event: any = null) => {
+        addUser({ variables: { input: { email, name } } });
+        onAdd();
+    }
+
+    const updateRow = (event: any = null) => {
+        if (selected) {
+            updateUser({ variables: { id: selected.id, input: { email, name } } });
+        }
+    }
+
+    const deleteRow = (event: any = null) => {
+        if (selected) {
+            deleteUser({ variables: { id: selected.id } });
+            closeRow();
+        }
+    }
+
+    let text;
+    if (selected) {
+        text = selected.id;
+    } else {
+        text = "What's up?";
     }
 
     return (
         <div className={classes.alignItemsAndJustifyContent}>
             <TableContainer className={classes.table} component={Paper}>
-                <TableToolbar {...props} selected={selected} setSelected={setSelected} onAdd={onAdd} />
+                <Toolbar className={classes.toolBarRoot}>
+                    <div id="toolbar-wrap" >
+                        <div className={classes.topBar}>
+                            <Typography id="toolbar-title" color="inherit" variant="subtitle1" component="div" >
+                                {text}
+                            </Typography>
+                        </div>
+                        <div className={classes.toolBar}>
+                            <div id="toolbar-textfields">
+                                <TextField value={name} onChange={handleChangeName} label="Name" variant="outlined" />
+                                <TextField value={email} onChange={handleChangeEmail} label="Email" variant="outlined" />
+                            </div>
+                            <div id="toolbar-buttons" >
+                                <Tooltip title="Add" key="Add">
+                                    <IconButton onClick={addRow} aria-label="add">
+                                        <AddCircleIcon />
+                                    </IconButton>
+                                </Tooltip>
+                                <Tooltip title="Edit" key="Edit">
+                                    <IconButton disabled={!selected} onClick={updateRow} aria-label="edit">
+                                        <EditIcon />
+                                    </IconButton>
+                                </Tooltip>
+                                <Tooltip title="Delete" key="Delete">
+                                    <IconButton disabled={!selected} onClick={deleteRow} aria-label="delete">
+                                        <DeleteIcon />
+                                    </IconButton>
+                                </Tooltip>
+                                <Tooltip title="Close" key="Close">
+                                    <IconButton disabled={!selected} onClick={closeRow} aria-label="close">
+                                        <CloseIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            </div>
+                        </div>
+                    </div>
+                </Toolbar>
                 <Table aria-label="custom pagination table">
                     <TableHead>
                         <TableRow>
