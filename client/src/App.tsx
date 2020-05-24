@@ -54,7 +54,7 @@ function App() {
         cache.writeQuery({
           query: GET_USERS,
           data: {
-            users: users.concat([createUser]),
+            users: [createUser, ...users],
           },
         })
       }
@@ -101,7 +101,14 @@ function App() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
-  return <UserTable users={data.users} addUser={addUser} updateUser={updateUser} deleteUser={deleteUser} />;
+  const pass = {
+    users: data.users,
+    addUser,
+    updateUser,
+    deleteUser,
+  };
+
+  return <UserTable pass={pass} />;
 }
 
 export default App;
