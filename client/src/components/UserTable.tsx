@@ -160,6 +160,9 @@ const userTableStyles = makeStyles((theme: Theme) =>
                 position: "relative",
             },
         },
+        error: {
+            color: "red",
+        },
     })
 );
 
@@ -170,16 +173,36 @@ interface Row {
 }
 
 export default function UserTable(props: any) {
-    const { addUser, updateUser, deleteUser } = props;
-    const rows: Row[] = props.users.sort((a: any, b: any) => { return a.id < b.id ? 1 : a.id > b.id ? -1 : 0 });
+    const { users, addUser, updateUser, deleteUser, } = props.pass;
+    const rows: Row[] = users.sort((a: any, b: any) => { return a.id < b.id ? 1 : a.id > b.id ? -1 : 0 });
     const classes = userTableStyles();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [selected, setSelected] = React.useState<Row | null>(null);
     const [name, setName] = React.useState<string>("");
     const [email, setEmail] = React.useState<string>("");
+    const [currentError, setError] = React.useState<any>(null);
+
+
+    const resetError = () => {
+        setError(null);
+    }
+
+    const onError = ({ graphQLErrors, networkError }: any) => {
+        if (graphQLErrors && graphQLErrors[0]) {
+            setError(graphQLErrors[0]);
+        } else if (networkError) {
+            if (networkError.result.errors) {
+                console.log(networkError.result.errors);
+                setError(networkError.result.errors[0])
+            } else {
+                setError(networkError);
+            }
+        }
+    };
 
     const closeRow = (event: any = null) => {
+        resetError();
         setSelected(null);
         setEmail("");
         setName("");
@@ -196,6 +219,7 @@ export default function UserTable(props: any) {
     };
 
     const handleClick = (event: any, row: Row) => {
+        resetError();
         if (selected && selected.id === row.id) {
             closeRow();
         } else {
@@ -206,10 +230,12 @@ export default function UserTable(props: any) {
     };
 
     const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
+        resetError();
         setName(event.target.value);
     };
 
     const handleChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+        resetError();
         setEmail(event.target.value);
     };
 
@@ -219,34 +245,63 @@ export default function UserTable(props: any) {
 
     const currentPageRows = rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
+    interface Input {
+        email: string,
+        name: string,
+    }
+
+    const setInput = () => {
+        let input = {} as Input;
+        if (email) { input.email = email }
+        if (name) { input.name = name }
+        return input;
+    };
+
     //TODO: selectes wrong row, lul
     const onAdd = () => {
         //setSelected(currentPageRows[0]);
     }
 
     const addRow = async (event: any = null) => {
-        addUser({ variables: { input: { email, name } } });
+        resetError();
+        addUser({ variables: { input: setInput() } }).catch(onError);
         onAdd();
     }
 
     const updateRow = (event: any = null) => {
+        resetError();
         if (selected) {
-            updateUser({ variables: { id: selected.id, input: { email, name } } });
+            updateUser({ variables: { id: selected.id, input: setInput() } }).catch(onError);
         }
     }
 
     const deleteRow = (event: any = null) => {
+        resetError();
         if (selected) {
-            deleteUser({ variables: { id: selected.id } });
+            deleteUser({ variables: { id: selected.id } }).catch(onError);
             closeRow();
         }
     }
 
     let text;
-    if (selected) {
-        text = selected.id;
+    if (currentError) {
+        text = (
+            <span className={classes.error}>
+                {currentError.message}
+            </span>
+        )
+    } else if (selected) {
+        text = (
+            <React.Fragment>
+                {selected.id}
+            </React.Fragment>
+        )
     } else {
-        text = "What's up?";
+        text = (
+            <React.Fragment>
+                What's up?
+            </React.Fragment>
+        )
     }
 
     return (
