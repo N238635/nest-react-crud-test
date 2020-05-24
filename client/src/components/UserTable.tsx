@@ -152,6 +152,10 @@ const userTableStyles = makeStyles((theme: Theme) =>
                     marginBottom: 2,
                     marginLeft: theme.spacing(1),
                 },
+
+                '& input': {
+                    width: "unset",
+                },
             },
 
             '& #toolbar-buttons': {
