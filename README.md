@@ -1,6 +1,8 @@
 # nest-react-crud-test
 Basic React CRUD app using NestJS server with GraphQL API and MongoDB
 
+Сделано по [этому тестовому заданию](https://gist.github.com/kulakowka/3dd596b8c2d2ed2ddee5dabd877d48be).
+
 ## Demo
 
 Table is made with [Material UI](https://material-ui.com/)
