@@ -260,15 +260,13 @@ export default function UserTable(props: any) {
         return input;
     };
 
-    //TODO: selectes wrong row, lul
-    const onAdd = () => {
-        //setSelected(currentPageRows[0]);
+    const onAdd = ({ data: { createUser } }: any) => {
+        setSelected(createUser);
     }
 
     const addRow = async (event: any = null) => {
         resetError();
-        addUser({ variables: { input: setInput() } }).catch(onError);
-        onAdd();
+        addUser({ variables: { input: setInput() } }).then(onAdd).catch(onError);
     }
 
     const updateRow = (event: any = null) => {
