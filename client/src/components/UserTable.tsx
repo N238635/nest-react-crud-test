@@ -196,8 +196,7 @@ export default function UserTable(props: any) {
         if (graphQLErrors && graphQLErrors[0]) {
             setError(graphQLErrors[0]);
         } else if (networkError) {
-            if (networkError.result.errors) {
-                console.log(networkError.result.errors);
+            if (networkError.result && networkError.result.errors) {
                 setError(networkError.result.errors[0])
             } else {
                 setError(networkError);
